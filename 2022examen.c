@@ -116,6 +116,27 @@ int nrconexe(int MatriceDeAdiacenta[8][8])
     return nr;
 }
 
+void GetPathToTreeNode(TreeNode *root, int arr[], int searchedValue)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    if (root->data == searchedValue)
+    {
+        arr[0] = root->data;
+        // arr[arr[0]] = root->data;
+        return;
+    }
+    GetPathToTreeNode(root->left, arr, searchedValue);
+    GetPathToTreeNode(root->right, arr, searchedValue);
+    if (arr[0] != -1)
+    {
+
+        arr[++arr[0]] = root->data;
+    }
+}
+
 // int Dijkstra(int mat[8][8])
 // {
 //     int frec[8] = {0};
@@ -167,25 +188,25 @@ int main()
     //  8   5   _   7
     // _ _ 12 13 _ _ 20 21
 
-    root->data = 0;
+    root->data = 1;
     root->left = (TreeNode *)malloc(sizeof(TreeNode));
     root->right = (TreeNode *)malloc(sizeof(TreeNode));
-    root->left->data = 0;
-    root->right->data = 0;
+    root->left->data = 2;
+    root->right->data = 3;
     root->left->left = (TreeNode *)malloc(sizeof(TreeNode));
     root->left->right = (TreeNode *)malloc(sizeof(TreeNode));
 
     root->right->right = (TreeNode *)malloc(sizeof(TreeNode));
-    root->left->left->data = 0;
-    root->left->right->data = 0;
+    root->left->left->data = 8;
+    root->left->right->data = 5;
 
-    root->right->right->data = 0;
+    root->right->right->data = 7;
     root->left->left->left = NULL;
     root->left->left->right = NULL;
     root->left->right->left = (TreeNode *)malloc(sizeof(TreeNode));
     root->left->right->right = (TreeNode *)malloc(sizeof(TreeNode));
-    root->left->right->left->data = 0;
-    root->left->right->right->data = 0;
+    root->left->right->left->data = 12;
+    root->left->right->right->data = 13;
     root->left->right->left->left = NULL;
     root->left->right->left->right = NULL;
     root->left->right->right->left = NULL;
@@ -193,8 +214,8 @@ int main()
 
     root->right->right->left = (TreeNode *)malloc(sizeof(TreeNode));
     root->right->right->right = (TreeNode *)malloc(sizeof(TreeNode));
-    root->right->right->left->data = 0;
-    root->right->right->right->data = 0;
+    root->right->right->left->data = 20;
+    root->right->right->right->data = 21;
     root->right->right->left->left = NULL;
     root->right->right->left->right = NULL;
     root->right->right->right->left = NULL;
@@ -227,5 +248,20 @@ int main()
     }
 
     printf("Numarul de puncte de articulatie este %d\n", punti);
+
+    int arr[100];
+    arr[0] = -1;
+    GetPathToTreeNode(root, arr, 12);
+    for (int i = 1; i <= arr[0]; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+
+    // for (int i = arr[0]; i >= 12; i--)
+    // {
+    //     printf("%d ", arr[i]);
+    // }
+    // printf("\n");
+
     return 0;
 }
